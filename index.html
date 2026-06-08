@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Does Facial Recognition Actually Store?</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>What Does Facial Recognition Actually Store?</h1>
+    </header>
+    <main class="container">
+        <section id="upload-section-1" class="upload-section">
+            <h2>Upload Image 1</h2>
+            <div class="drop-area" id="drop-area-1">
+                <p>Drag & Drop Image Here or Click to Upload</p>
+                <input type="file" id="file-input-1" accept="image/*" hidden>
+            </div>
+            <div class="image-preview-container" id="image-preview-container-1">
+                <img id="image-preview-1" src="" alt="Image Preview 1" class="hidden">
+                <canvas id="image-canvas-1" class="hidden"></canvas>
+                <p id="no-face-message-1" class="error-message hidden">No face detected in this image.</p>
+            </div>
+            <div class="face-data-output" id="face-data-output-1">
+                <h3>Face Data (Image 1)</h3>
+                <p><strong>Dimensions:</strong> <span id="dimensions-1"></span></p>
+                <p><strong>First 20 Descriptor Values:</strong> <span id="descriptor-snippet-1"></span></p>
+                <p><strong>Full Descriptor:</strong></p>
+                <textarea id="full-descriptor-1" rows="5" readonly></textarea>
+                <p class="explanation">This vector is the mathematical representation used for comparison. The system can compare vectors without needing to compare photographs directly.</p>
+            </div>
+        </section>
+
+        <section id="comparison-section" class="upload-section">
+            <h2>Upload Image 2 for Comparison</h2>
+            <div class="drop-area" id="drop-area-2">
+                <p>Drag & Drop Image Here or Click to Upload</p>
+                <input type="file" id="file-input-2" accept="image/*" hidden>
+            </div>
+            <div class="image-preview-container" id="image-preview-container-2">
+                <img id="image-preview-2" src="" alt="Image Preview 2" class="hidden">
+                <canvas id="image-canvas-2" class="hidden"></canvas>
+                <p id="no-face-message-2" class="error-message hidden">No face detected in this image.</p>
+            </div>
+            <div class="face-data-output" id="face-data-output-2">
+                <h3>Face Data (Image 2)</h3>
+                <p><strong>Dimensions:</strong> <span id="dimensions-2"></span></p>
+                <p><strong>First 20 Descriptor Values:</strong> <span id="descriptor-snippet-2"></span></p>
+                <p><strong>Full Descriptor:</strong></p>
+                <textarea id="full-descriptor-2" rows="5" readonly></textarea>
+            </div>
+            <div class="comparison-results" id="comparison-results" class="hidden">
+                <h3>Comparison Results</h3>
+                <p><strong>Euclidean Distance:</strong> <span id="distance-score"></span></p>
+                <p><strong>Similarity Percentage:</strong> <span id="similarity-percentage"></span></p>
+                <p><strong>Match:</strong> <span id="match-indicator"></span></p>
+            </div>
+        </section>
+
+        <section id="educational-section">
+            <h2>Educational Visualizations</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Original Image</h3>
+                    <p>The initial photograph provided by the user.</p>
+                </div>
+                <div class="card">
+                    <h3>Face Detection</h3>
+                    <p>The system identifies the location and boundaries of a human face within the image.</p>
+                </div>
+                <div class="card">
+                    <h3>Landmark Extraction</h3>
+                    <p>Key facial features (eyes, nose, mouth, jawline) are mapped to precise points.</p>
+                </div>
+                <div class="card">
+                    <h3>Embedding Generation</h3>
+                    <p>A unique mathematical vector (face descriptor) is created from the landmarks and facial structure.</p>
+                </div>
+                <div class="card">
+                    <h3>Face Matching</h3>
+                    <p>Two facial embeddings are compared mathematically to determine their similarity.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="privacy-section">
+            <h2>What Might Be Stored?</h2>
+            <div class="privacy-data">
+                <ul>
+                    <li>✓ Facial embedding (the mathematical vector)</li>
+                    <li>✓ User ID (to link embedding to an identity)</li>
+                    <li>✓ Confidence score (how sure the system is about the match)</li>
+                    <li>✗ Full image (not always required for recognition itself)</li>
+                </ul>
+                <p class="disclaimer">
+                    <strong>Disclaimer:</strong> Some real-world systems store both images and embeddings for various purposes (e.g., verification, re-training). This demo illustrates how primary recognition can be performed using embeddings alone, highlighting the non-image data aspect of facial recognition.
+                    The image data actually gets converted to a numerical representation (the embedding), which is what's primarily used for identification and comparison.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gemini CLI Demo. All rights reserved.</p>
+    </footer>
+
+    <!-- face-api.js scripts -->
+    <!-- Make sure to download these and place them in a 'models' directory -->
+    <script src="face-api.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
