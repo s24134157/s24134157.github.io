@@ -28,6 +28,7 @@ const comparisonResults = document.getElementById('comparison-results');
 const distanceScore = document.getElementById('distance-score');
 const similarityPercentage = document.getElementById('similarity-percentage');
 const matchIndicator = document.getElementById('match-indicator');
+const similarityIndicator = document.getElementById('similarity-indicator'); // New: Reference to the similarity indicator element
 
 // Store face descriptors for comparison
 let faceDescriptor1 = null;
@@ -42,7 +43,7 @@ async function loadModels() {
         await faceapi.nets.faceRecognitionNet.load(MODELS_URL);
         await faceapi.nets.faceExpressionNet.load(MODELS_URL); // Optional: for expressions
         console.log('Models loaded successfully!');
-        document.body.classList.add('models-loaded'); // Indicate models are ready
+        // document.body.classList.add('models-loaded'); // Indicate models are ready (not needed for new theme)
     } catch (error) {
         console.error('Error loading models:', error);
         alert('Failed to load face-api.js models. Please ensure the "models" folder is correctly placed and accessible.');
@@ -188,6 +189,24 @@ function clearCanvas(canvas) {
 
 // --- Face Comparison Logic ---
 function updateComparison() {
+    // Select the icon elements
+    const questionIcon = similarityIndicator.querySelector('.fa-question-circle');
+    let checkIcon = similarityIndicator.querySelector('.fa-check-circle');
+    const indicatorTextSpan = similarityIndicator.querySelector('.indicator-text');
+
+    // Ensure checkIcon exists, create if not (it's added in HTML now)
+    if (!checkIcon) {
+        checkIcon = document.createElement('i');
+        checkIcon.classList.add('fas', 'fa-check-circle', 'icon-sketch', 'hidden');
+        similarityIndicator.insertBefore(checkIcon, indicatorTextSpan);
+    }
+
+    // Reset indicator state
+    similarityIndicator.classList.remove('match', 'no-match');
+    questionIcon.classList.remove('hidden');
+    checkIcon.classList.add('hidden');
+    indicatorTextSpan.textContent = 'Waiting for comparison...'; // Default text
+
     if (faceDescriptor1 && faceDescriptor2) {
         const distance = faceapi.euclideanDistance(faceDescriptor1, faceDescriptor2);
         const similarity = (1 - distance).toFixed(2); // Similarity score (0 to 1)
@@ -195,15 +214,28 @@ function updateComparison() {
         distanceScore.textContent = distance.toFixed(4);
         similarityPercentage.textContent = `${(similarity * 100).toFixed(2)}%`;
 
-        // A common threshold for face recognition is around 0.6 for similarity
-        // Or distance threshold around 0.4
         const isMatch = distance < 0.6; // Adjust threshold as needed
 
-        matchIndicator.textContent = isMatch ? 'Match!' : 'No Match';
-        matchIndicator.className = ''; // Clear previous classes
+        matchIndicator.textContent = isMatch ? 'Match!' : 'No Match'; // For the text within comparison-results
+        matchIndicator.className = '';
         matchIndicator.classList.add(isMatch ? 'match' : 'no-match');
-        comparisonResults.classList.remove('hidden');
+
+        // Update similarityIndicator (the badge)
+        if (isMatch) {
+            similarityIndicator.classList.add('match');
+            indicatorTextSpan.textContent = 'Match Found!';
+            questionIcon.classList.add('hidden');
+            checkIcon.classList.remove('hidden');
+        } else {
+            similarityIndicator.classList.add('no-match');
+            indicatorTextSpan.textContent = 'No Match';
+            questionIcon.classList.remove('hidden'); // Keep question mark if no match
+            checkIcon.classList.add('hidden');
+        }
+
+        comparisonResults.classList.remove('hidden'); // Show comparison results section
     } else {
+        // If one or both descriptors are missing, hide comparison results
         comparisonResults.classList.add('hidden');
     }
 }
