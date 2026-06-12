@@ -399,7 +399,7 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2.5em;
+        font-size: 2.2em; /* Further reduced for very small screens */
     }
 
     .container {
@@ -410,15 +410,55 @@ footer {
 
     .upload-zones-container {
         flex-direction: column; /* Stack vertically on small screens */
+        gap: 15px; /* Slightly less gap for mobile */
     }
 
     .upload-box {
         min-width: unset; /* Remove min-width for stacking */
         width: 100%;
+        padding: 15px; /* Reduced padding for mobile boxes */
+    }
+
+    .upload-box h2 {
+        font-size: 1.5em; /* Reduced h2 size */
+        margin-bottom: 15px;
+    }
+
+    .face-data-output {
+        padding: 15px; /* Reduced padding */
+    }
+
+    .face-data-output h3 {
+        font-size: 1.3em; /* Reduced h3 size */
+    }
+
+    .face-data-output textarea {
+        min-height: 80px; /* Slightly smaller textarea */
+    }
+
+    .similarity-indicator {
+        font-size: 1.2em; /* Reduced indicator font size */
+        padding: 10px 20px; /* Reduced padding */
+        min-width: unset; /* Allow it to shrink more */
+        width: 100%; /* Take full width */
+    }
+
+    .comparison-results {
+        max-width: 100%; /* Allow to take full width */
+        padding: 15px; /* Reduced padding */
+    }
+
+    .comparison-results h3 {
+        font-size: 1.4em; /* Reduced h3 size */
     }
 
     .google-form-btn {
-        font-size: 1.1em;
+        font-size: 1em; /* Smaller button text on mobile */
         padding: 12px 20px;
+    }
+
+    footer {
+        padding: 15px; /* Reduced footer padding */
+        margin-top: 20px; /* Reduced footer margin */
     }
 }
